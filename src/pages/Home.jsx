@@ -1,97 +1,117 @@
-import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
-const categorias = [{ id: 1, nombre: 'Lácteos', }, { id: 2, nombre: 'Panadería', }, { id: 3, nombre: 'Abarrotes', }, { id: 4, nombre: 'Bebidas', }, { id: 5, nombre: 'Snacks', }, { id: 6, nombre: 'Limpieza', }, { id: 7, nombre: 'Cuidado Personal', }]
+const beneficios = [
+    {
+        id: 1,
+        icono: '🚚',
+        titulo: 'Despacho a Domicilio',
+        desc: 'Llegamos a tu puerta el mismo día para compras realizadas antes de las 14:00 hrs.'
+    },
+    {
+        id: 2,
+        icono: '🥑',
+        titulo: 'Frescura Garantizada',
+        desc: 'Seleccionamos los mejores productos del campo y despensa todas las mañanas.'
+    },
+    {
+        id: 3,
+        icono: '💳',
+        titulo: 'Precios Bajos Siempre',
+        desc: 'Ofertas semanales imperdibles y todos los medios de pago disponibles.'
+    }
+];
 
-const inventarioInicial = [{ id: 1, nombre: 'Leche Entera 1L', categoria: 'Lácteos', precio: 1100, stock: 12 },
-{ id: 2, nombre: 'Pan Molde Integral', categoria: 'Panadería', precio: 1990, stock: 8 },
-{ id: 3, nombre: 'Arroz Grado 1 1kg', categoria: 'Abarrotes', precio: 1450, stock: 25 },]
+const categoriasDestacadas = [
+    { id: 1, nombre: 'Lácteos y Huevos', icono: '🥛', color: 'bg-primary-subtle' },
+    { id: 2, nombre: 'Panadería y Pastelería', icono: '🥖', color: 'bg-warning-subtle' },
+    { id: 3, nombre: 'Abarrotes y Despensa', icono: '🥫', color: 'bg-success-subtle' },
+    { id: 4, nombre: 'Bebidas y Jugos', icono: '🧃', color: 'bg-info-subtle' },
+];
 
 export function Home() {
-    const [inventario, setInventario] = useState(inventarioInicial)
-
-    const modificarStock = (id, cantidad) => {
-        setInventario(previo =>
-            previo.map(item =>
-                item.id === id && item.stock + cantidad >= 0 ? { ...item, stock: item.stock + cantidad } : item))
-    }
-
-    const agregarProducto = (e) => {
-        e.preventDefault()
-        const formData = new FormData(e.target)
-        const nombre = formData.get('nombreProducto').trim()
-        const categoria = formData.get('categoriaProducto').trim()
-        const precio = parseInt(formData.get('precioProducto').trim())
-        const stock = parseInt(formData.get('stockProducto').trim())
-
-        if (!nombre || !categoria || !precio || !stock || categoria === 'Seleccione una categoría') {
-            alert('Todos los campos son obligatorios')
-            return
-        }
-        if (precio < 0 || stock < 0) {
-            alert('El precio y el stock deben ser mayores a 0')
-            return
-        }
-        const productoExistente = inventario.find(item => item.nombre.toLowerCase() === nombre.toLowerCase())
-        if (productoExistente) {
-            alert('El producto ya existe en el inventario')
-            return
-        }
-
-        setInventario([...inventario, { id: Date.now().toString(), nombre, categoria, precio, stock }])
-        e.target.reset()
-    }
-
     return (
         <div className="container mt-4 mb-5 pb-5">
-            <h2 className="mb-4 text-center mb-5">Gestión de Inventario</h2>
-            <div className="row g-3 justify-content">
-                {inventario.map(item => (
-                    <div className="card mb-2 mx-4" key={item.id} style={{ width: '18rem' }}>
-                        {/*<img src={item.imagen} className="card-img-top" alt="Imagen de Producto" />*/}
-                        <div className="card-body">
-                            <h5 className="card-title">{item.nombre}</h5>
-                            <p className="card-text"><b>Categoría:</b> {item.categoria}</p>
-                            <p className="card-text"><b>Precio:</b> ${item.precio}</p>
-                            <div className="d-flex justify-content-between align-items-center">
-                                <button className="btn btn-sm btn-danger" onClick={() => modificarStock(item.id, -1)}>-</button>
-                                <span className="mx-2 "><b>Stock:</b> {item.stock}</span>
-                                <button className="btn btn-sm btn-success" onClick={() => modificarStock(item.id, 1)}>+</button>
-                            </div>
+            {/* 1. Hero Comercial de Bienvenida */}
+            <div className="bg-primary text-white rounded-4 p-5 mb-5 shadow-sm text-center text-lg-start">
+                <div className="row align-items-center">
+                    <div className="col-lg-8">
+                        <span className="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold mb-3">
+                            🎉 ¡Bienvenido a tu Supermercado de Confianza!
+                        </span>
+                        <h1 className="display-4 fw-bold mb-3">
+                            Calidad, Frescura y Ahorro en tu Mesa
+                        </h1>
+                        <p className="lead mb-4 text-white-50">
+                            Encuentra los mejores productos para tu hogar al mejor precio. Compra fácil, rápido y con la
+                            atención cercana de siempre.
+                        </p>
+                        <div className="d-flex flex-wrap gap-3 justify-content-center justify-content-lg-start">
+                            <Link to="/inventario" className="btn btn-light btn-lg px-4 fw-bold text-primary">
+                                🛒 Explorar Artículos
+                            </Link>
+                            <Link to="/quienes-somos" className="btn btn-outline-light btn-lg px-4">
+                                Conoce Nuestra Historia
+                            </Link>
                         </div>
                     </div>
-                ))}
-                <button className="btn btn-primary col-2 offset-9 mt-4" type="button" data-bs-toggle="collapse" data-bs-target="#formularioProducto" aria-expanded="false" aria-controls="formularioProducto">
-                    Agregar Productos
-                </button>
-                <div className="collapse" id="formularioProducto">
-                    <div className="card card-body">
-                        <form onSubmit={agregarProducto}>
-                            <div className="mb-3">
-                                <label htmlFor="nombreProducto" className="form-label">Nombre del Producto</label>
-                                <input name="nombreProducto" type="text" className="form-control" id="nombreProducto" />
-                            </div>
-                            <div className="mb-3">
-                                <label htmlFor="categoriaProducto" className="form-label">Categoría del Producto</label>
-                                <select name="categoriaProducto" id="categoriaProducto" className="form-select">
-                                    <option>Seleccione una categoría</option>
-                                    {categorias.map(item => (<option key={item.id}>{item.nombre}</option>))}
-                                </select>
-
-                            </div>
-                            <div className="mb-3">
-                                <label htmlFor="precioProducto" className="form-label">Precio del Producto</label>
-                                <input name="precioProducto" type="number" className="form-control" id="precioProducto" />
-                            </div>
-                            <div className="mb-3">
-                                <label htmlFor="stockProducto" className="form-label">Stock del Producto</label>
-                                <input name="stockProducto" type="number" className="form-control" id="stockProducto" />
-                            </div>
-                            <button type="submit" className="btn btn-primary">Agregar Producto</button>
-                        </form>
+                    <div className="col-lg-4 text-center mt-4 mt-lg-0 d-none d-lg-block">
+                        <div className="display-1">🍎🥦🥖</div>
                     </div>
                 </div>
             </div>
 
+            {/* 2. Sección de Beneficios */}
+            <div className="row g-4 mb-5 text-center">
+                {beneficios.map(b => (
+                    <div key={b.id} className="col-12 col-md-4">
+                        <div className="card h-100 border-0 shadow-sm p-3">
+                            <div className="card-body">
+                                <div className="display-4 mb-3">{b.icono}</div>
+                                <h5 className="fw-bold mb-2">{b.titulo}</h5>
+                                <p className="text-muted small mb-0">{b.desc}</p>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+            {/* 3. Categorías Populares */}
+            <div className="mb-5">
+                <div className="d-flex justify-content-between align-items-center mb-4">
+                    <h3 className="fw-bold mb-0">🏷️ Categorías Populares</h3>
+                    <Link to="/inventario" className="text-decoration-none fw-semibold">
+                        Ver todas &rarr;
+                    </Link>
+                </div>
+                <div className="row g-3">
+                    {categoriasDestacadas.map(c => (
+                        <div key={c.id} className="col-6 col-md-3">
+                            <div className={`card border-0 shadow-sm text-center p-3 h-100 ${c.color}`}>
+                                <div className="card-body">
+                                    <div className="fs-1 mb-2">{c.icono}</div>
+                                    <h6 className="fw-bold mb-0 text-dark">{c.nombre}</h6>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {/* 4. Banner de Invitación al Club */}
+            <div className="bg-light border rounded-4 p-4 text-center">
+                <h4 className="fw-bold mb-2">¿Buscas gestionar o ingresar mercadería?</h4>
+                <p className="text-muted mb-3">
+                    Accede al sistema de inventario general o registra nuevos productos para actualizar el catálogo.
+                </p>
+                <div className="d-flex justify-content-center gap-3">
+                    <Link to="/inventario" className="btn btn-primary px-4">
+                        📋 Ir a la Tabla de Inventario
+                    </Link>
+                    <Link to="/nuevo-articulo" className="btn btn-outline-primary px-4">
+                        ➕ Registrar Nuevo Artículo
+                    </Link>
+                </div>
+            </div>
         </div>
-    )
+    );
 }

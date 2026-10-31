@@ -22,13 +22,13 @@ export function Menu() {
                             <Link className="nav-link" to="/preguntas-frecuentes">Preguntas Frecuentes</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="">Nuestras Tiendas</Link>
+                            <Link className="nav-link" to="/nuevo-articulo">Añadir Nuevo Articulo</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="">Contactanos</Link>
+                            <Link className="nav-link" to="/inventario">Inventario</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="">Como comprar</Link>
+                            <Link className="nav-link" to="not-found">Como comprar</Link>
                         </li>
                     </ul></div>
             </div>
