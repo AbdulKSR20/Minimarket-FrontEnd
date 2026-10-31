@@ -1,38 +1,44 @@
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
+
+const enlaces = [
+    { to: '/', texto: 'Home', end: true },
+    { to: '/quienes-somos', texto: 'Quienes Somos' },
+    { to: '/preguntas-frecuentes', texto: 'Preguntas Frecuentes' },
+    { to: '/nuevo-articulo', texto: 'Añadir Nuevo Articulo' },
+    { to: '/inventario', texto: 'Inventario' },
+    { to: 'not-found', texto: 'Como comprar' },
+];
 
 export function Menu() {
+    const clasesEnlace = ({ isActive }) =>
+        `rounded-lg px-3 py-1.5 text-sm font-medium whitespace-nowrap transition-colors ${
+            isActive
+                ? 'bg-white/20 text-white font-semibold ring-1 ring-white/30'
+                : 'text-blue-100 hover:bg-white/10 hover:text-white'
+        }`;
+
     return (
-        <nav className="navbar navbar-expand-lg fixed-bottom  navbar-dark bg-primary p-3 ">
-            <div className="container-fluid">
-                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span className="navbar-toggler-icon"></span>
-                </button>
-                <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul className="navbar-nav">
-                        <li className='nav-item'>
-                            <Link className="navbar-brand" to="/"><img src="market-place-svgrepo-com.svg" alt="Inicio - Supermercado" /></Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/">Home</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/quienes-somos">Quienes Somos</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/preguntas-frecuentes">Preguntas Frecuentes</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/nuevo-articulo">Añadir Nuevo Articulo</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/inventario">Inventario</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="not-found">Como comprar</Link>
-                        </li>
-                    </ul></div>
+        <nav className="fixed bottom-0 left-0 right-0 z-50 bg-blue-600 text-white shadow-lg py-3">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center gap-2 overflow-x-auto">
+                <Link to="/" className="shrink-0 mr-2" aria-label="Inicio - Supermercado">
+                    <img
+                        src="market-place-svgrepo-com.svg"
+                        alt="Inicio - Supermercado"
+                        className="h-8 w-8"
+                    />
+                </Link>
+
+                {enlaces.map((enlace) => (
+                    <NavLink
+                        key={enlace.to}
+                        to={enlace.to}
+                        end={enlace.end}
+                        className={clasesEnlace}
+                    >
+                        {enlace.texto}
+                    </NavLink>
+                ))}
             </div>
         </nav>
-
-    )
+    );
 }

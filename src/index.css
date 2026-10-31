@@ -1,21 +1,7 @@
+@import "tailwindcss";
+
 body {
-    background-color: #f8f9fa;
+    background-color: #f8fafc;
     min-height: 100vh;
-}
-
-.main {
-    padding-bottom: 150px;
-}
-
-.navbar-brand img {
-    width: 40px;
-    height: 30px;
-}
-
-.nav-link {
-    color: #E1E3E4;
-}
-
-.nav-link:hover {
-    color: black;
+    padding-bottom: 5rem;
 }

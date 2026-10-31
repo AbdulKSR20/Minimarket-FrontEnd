@@ -23,25 +23,21 @@ const preguntas = [
 
 export function PreguntasFrecuentes() {
     return (
-        <div className="container mt-4 mb-5 pb-5">
-            <h2 className="text-center mb-4">❓ Preguntas Frecuentes</h2>
-            <p className="text-center text-muted mb-5">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 mb-5 pb-5">
+            <h2 className="text-2xl sm:text-3xl font-bold text-center mb-4">❓ Preguntas Frecuentes</h2>
+            <p className="text-center text-slate-500 mb-12">
                 Resolvemos las dudas más comunes de nuestros clientes.
             </p>
 
-            <div className="row g-4 justify-content-center">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 justify-center">
                 {preguntas.map(faq => (
-                    <div key={faq.id} className="col-12 col-md-6">
-                        <div className="card h-100 shadow-sm border-0 bg-light">
-                            <div className="card-body">
-                                <h5 className="card-title text-primary">
-                                    {faq.pregunta}
-                                </h5>
-                                <p className="card-text text-secondary">
-                                    {faq.respuesta}
-                                </p>
-                            </div>
-                        </div>
+                    <div key={faq.id} className="bg-slate-50 rounded-xl shadow-sm border border-slate-200 p-6 h-full">
+                        <h5 className="text-lg font-bold text-blue-700 mb-2">
+                            {faq.pregunta}
+                        </h5>
+                        <p className="text-slate-600">
+                            {faq.respuesta}
+                        </p>
                     </div>
                 ))}
             </div>
